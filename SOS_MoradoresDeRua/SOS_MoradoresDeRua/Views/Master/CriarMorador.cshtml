@@ -1,0 +1,90 @@
+﻿@using SOS_MoradoresDeRua.Models
+
+@model MoradorDeRua
+@{
+    ViewBag.Title = "Criar novo morador de rua";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="~/Content/login.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+@if (Session["usuarioLogado"] != null)
+{
+    <div class="text-center" style="padding:50px 0">
+        <main>
+            <div class="login-form-1">
+                @using (Html.BeginForm("Adiciona", "NovoMorador", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="login-form-main-message"></div>
+                    <div class="main-login-form">
+                        <div class="login-group">
+                            <div class="form-group">
+                                <label for="reg_fullname" class="sr-only">Nome Completo</label>
+                                <input type="text" class="form-control" id="reg_fullname" name="pessoa.Nome" placeholder="Nome Completo">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg_origin" class="sr-only">Local de Origem</label>
+                                <input type="text" class="form-control" id="reg_origin" name="pessoa.LocalDeOrigem" placeholder="Local de Origem">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg_age" class="sr-only">Idade</label>
+                                <input type="number" mim="0" max="150" class="form-control" id="reg_age" name="pessoa.Idade" placeholder="Idade">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg_history" class="sr-only">História</label>
+                                <input type="text" class="form-control" id="reg_history" name="Historia" placeholder="História">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg_description" class="sr-only">Descrição</label>
+                                <input type="text" class="form-control" id="reg_description" name="pessoa.Descricao" placeholder="Descrição">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg_currentlocation" class="sr-only">Local Atual</label>
+                                <input type="text" class="form-control" id="reg_currentlocation" name="OndeVive" placeholder="Local Atual">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg_necessidades" class="sr-only">Necessidades</label>
+                                <input type="text" class="form-control" id="reg_necessidades" name="Necessidades" placeholder="Necessidades">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg_profissao" class="sr-only">Profissão</label>
+                                <input type="text" class="form-control" id="reg_profissao" name="Profissao" placeholder="Profissão">
+                            </div>
+                            <div class="form-group">
+                                <label for="reg_escolaridade" class="sr-only">Escolaridade</label>
+                                <input type="text" class="form-control" id="reg_escolaridade" name="Escolaridade" placeholder="Escolaridade">
+                            </div>
+                            <div class="form-group login-group-checkbox">
+                                <input type="radio" class="" name="pessoa.SexoId" id="female" value="1" placeholder="username">
+                                <label for="female">Feminino</label>
+
+                                <input type="radio" class="" name="pessoa.SexoId" id="male" value="2" placeholder="username">
+                                <label for="male">Masculino</label>
+
+                                <input type="radio" class="" name="pessoa.SexoId" id="intersexual" value="3" placeholder="username">
+                                <label for="intersexual">Intersexual</label>
+
+                                <input type="radio" class="" name="pessoa.SexoId" id="other" value="4" placeholder="other">
+                                <label for="other">Outro</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="file">Upload Image:</label>
+                                <input type="file" name="file" id="file" style="width: 100%;" class="submit btn btn-sm" />
+                                <input type="submit" value="Upload" class="submit btn btn-sm" />
+                            </div>
+                            <button type="submit" class="login-button">Registrar</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </main>
+    </div>
+}
+</body>

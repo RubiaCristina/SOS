@@ -1,0 +1,50 @@
+﻿@{ 
+    ViewBag.Title = "Usuarios";
+}
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <link href="~/Content/login.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-4">
+                <input type="text" placeholder="Buscar" class="form-control" id="BuscarUsuario" style="width:100%">
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-secondary" id="botaoPesquisar">Nome</button>
+            </div>
+        </div>
+    </div>
+    <h2>Usuários</h2>
+    <div id="NomeUsuario">
+        @{
+            SOS_MoradoresDeRua.DAO.UsuarioDAO usuario = new SOS_MoradoresDeRua.DAO.UsuarioDAO();
+            var usuarios = usuario.PegaMaisRecentes();
+        }
+        @foreach (var item in usuarios)
+        {
+
+            var user = new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId(item.Id);
+            if (User == null)
+            {
+                continue;
+            }
+            <div>
+                <span>
+                    <a href="../Master/Usuario?id=@item.Id">
+                        @item.Nome                        
+                    </a>
+                </span>
+            </div>
+        }
+    </div>
+    <script src="~/Scripts/Busca.js"></script>
+</body>
+
+

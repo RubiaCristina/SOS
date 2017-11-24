@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Usuario";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <link href="~/Content/login.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    @{
+        var id = int.Parse(Request.Params["id"]);
+        var usuario = new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId(id);        
+    }
+
+    <div class="row">  
+        <div class="col-md-10 nome">
+            <h3><Strong>@usuario.Nome</Strong></h3>
+        </div>
+        <div class="col-md-1">
+            @if (Session["usuarioLogado"] != null)
+            {
+                @Html.ActionLink(" ", "Reportar", "Usuario", new { id = usuario.Id }, new { @class = "btn btn-primary btn-warning glyphicon glyphicon-warning-sign" })
+            }
+        </div>
+        <div class="col-md-1">
+            @if(Session["usuarioLogado"] != null)
+            {
+                if(new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
+                { 
+                    @Html.ActionLink(" ", "Remover", "Usuario", new { id = usuario.Id }, new { @class = "btn btn-primary btn-danger glyphicon glyphicon-trash" })
+                }
+            }            
+        </div>
+    </div>
+    
+    <div class="row container">
+        <h4><Strong>E-Mail:</Strong>  @usuario.EMail</h4> <br />
+        <h4><Strong>Telefone:</Strong> @usuario.Telefone </h4> <br />
+        <h4><Strong>Redes Sociais:</Strong>  @usuario.LinkRedesSociais</h4> <br />
+        <h4><Strong>Sobre:</Strong> @usuario.Sobre </h4> <br />
+    </div>
+</body>

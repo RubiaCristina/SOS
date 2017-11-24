@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "PesquisaUsuario";
+}
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <link href="~/Content/login.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    @{
+        var termo = HttpUtility.HtmlDecode(Request.Params["s"]);
+        var usuarios = new SOS_MoradoresDeRua.DAO.UsuarioDAO().Busca(termo);
+    }
+    @foreach (var usuario in usuarios)
+    {
+        var foto = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorUsuario(usuario.Id).FirstOrDefault();
+        <div>
+            <h2>@usuario.Nome</h2>
+            @if (foto != null)
+            {
+                <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(foto)" width="200" height="200" />
+            }
+        </div>
+    }
+</body>
+

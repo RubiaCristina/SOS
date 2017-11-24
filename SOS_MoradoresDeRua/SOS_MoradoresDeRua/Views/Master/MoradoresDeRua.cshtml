@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Pessoas em situação de rua";
+}
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <link href="~/Content/login.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-4">
+                <input type="text" placeholder="Nome ou Cidade" class="form-control" id="BuscarMorador" style="width:100%">
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-secondary" id="botaoPesquisar">Buscar</button>
+            </div>
+        </div>
+    </div>
+    @if (Session["usuarioLogado"] != null)
+    {
+        <a href="/Master/CriarMorador" class="btn btn-primary">Adicionar Novo</a>
+    }
+    <div id="NomeMorador">
+        <h2>Moradores De Rua</h2>
+        <p>Conforme definição da Secretaria Nacional de Assistência Social, a população em situação de rua se caracteriza por ser um grupo populacional heterogêneo, composto por pessoas com diferentes realidades, mas que têm em comum a condição de pobreza absoluta, vínculos interrompidos ou fragilizados e falta de habitação convencional regular, sendo compelidas a utilizar a rua como espaço de moradia e sustento, por caráter temporário ou de forma permanente.</p>
+        <p>Entre os principais fatores que podem levar as pessoas a irem morar nas ruas estão: ausência de vínculos familiares, perda de algum ente querido, desemprego, violência, perda da autoestima, alcoolismo, uso de drogas e doença mental.</p>
+        <p>Uma pesquisa publicada pelo Ipea com base em dados de 2015 projetou que o Brasil tem pouco mais de 100 mil pessoas vivendo nas ruas. Segundo a mesma, das 101.854 pessoas em situação de rua, 40,1% estão em municípios com mais de 900 mil habitantes.</p>
+        @{
+            SOS_MoradoresDeRua.DAO.MoradorDeRuaDAO morador = new SOS_MoradoresDeRua.DAO.MoradorDeRuaDAO();
+            var moradores = morador.PegaMaisRecentes();
+        }
+        <div class="row">
+
+            @foreach (var item in moradores)
+            {
+                var pessoa = new SOS_MoradoresDeRua.DAO.PessoaDAO().BuscaPorId(item.PessoaId);
+                var foto = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorPessoa(pessoa.Id).FirstOrDefault();
+
+
+                <div class="col-sm-3">
+                    <center>
+                        <a href="../Master/Morador?id=@item.Pessoa.Id">
+                            <div>
+                                @item.Pessoa.Nome
+                            </div>
+                            <div>
+                                @if (foto != null)
+                                {
+                                    <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(foto)" width="200" height="200" />
+                                }
+                            </div>
+                        </a>
+                    </center>
+                </div>
+            }
+        </div>
+    </div>
+    <script src="~/Scripts/Busca.js"></script>
+</body>

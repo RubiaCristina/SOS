@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <link href="~/Content/login.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <h2>Página Inicial</h2>
+    <h3>Pessoas em Situação de Rua adicionadas recentemente:</h3>
+    @{
+        SOS_MoradoresDeRua.DAO.MoradorDeRuaDAO morador = new SOS_MoradoresDeRua.DAO.MoradorDeRuaDAO();
+        var moradores = morador.PegaMaisRecentes();
+    }
+    <div class="row">
+        @foreach (var item in moradores)
+            {
+                var pessoa = new SOS_MoradoresDeRua.DAO.PessoaDAO().BuscaPorId(item.PessoaId);
+                var foto = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorPessoa(pessoa.Id).FirstOrDefault();
+
+
+            <div class="col-sm-3">
+                <center>
+                    <a href="../Master/Morador?id=@item.Pessoa.Id">
+                        <div>
+                            @item.Pessoa.Nome
+                        </div>
+                        <div>
+                            @if (foto != null)
+                            {
+                                <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(foto)" width="200" height="200" />
+                            }
+                        </div>
+                    </a>
+                </center>
+            </div>
+        }
+    </div>
+
+    <br /><br />
+
+    <h3>Pessoas Desaparecidas adicionadas recentemente:</h3>
+    @{
+        SOS_MoradoresDeRua.DAO.PessoaDesaparecidaDAO desaparecido = new SOS_MoradoresDeRua.DAO.PessoaDesaparecidaDAO();
+        var desaparecidos = desaparecido.PegaMaisRecentes();
+    }
+
+    <div class="row">
+        @foreach (var item in desaparecidos)
+        {
+            var pessoa = new SOS_MoradoresDeRua.DAO.PessoaDAO().BuscaPorId(item.PessoaId);
+            var foto = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorPessoa(pessoa.Id).FirstOrDefault();
+
+
+            <div class="col-sm-3">
+                <center>
+                    <a href="../Master/Desaparecido?id=@item.Pessoa.Id">
+                        <div>
+                            @item.Pessoa.Nome
+                        </div>
+                        <div>
+                            @if (foto != null)
+                            {
+                                <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(foto)" width="200" height="200" />
+                            }
+                        </div>
+                    </a>
+                </center>
+            </div>
+        }
+    </div>  
+</body>

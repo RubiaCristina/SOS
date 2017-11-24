@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewBag.Title = "Desaparecido";
+}
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <link href="~/Content/login.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    @{
+        var id = int.Parse(Request.Params["id"]);
+        var pessoa = new SOS_MoradoresDeRua.DAO.PessoaDAO().BuscaPorId(id);
+        var desaparecido = new SOS_MoradoresDeRua.DAO.PessoaDesaparecidaDAO().BuscaPorPessoaId(pessoa.Id);
+
+        var fotos = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorPessoa(pessoa.Id);
+        var comentarios = new SOS_MoradoresDeRua.DAO.ComentarioDAO().BuscaPorPessoa(pessoa.Id);
+    }
+
+    <div class="row">
+        <div class="col-md-10 nome">
+            <h3><Strong>@pessoa.Nome</Strong></h3>
+        </div>
+        <div class="col-md-1">
+            @if (Session["usuarioLogado"] != null)
+            {
+                <p>
+                    <a class="btn btn-primary btn-warning glyphicon glyphicon-warning-sign" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"></a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        @using (Html.BeginForm("Reportar", "Desaparecido", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <input type="text" class="form-control" placeholder="Motivo" name="texto" style="width: 200px" />
+                            <input type="hidden" value="@desaparecido.Id" name="idDesaparecido" />
+                            <button type="submit" class="btn btn-warning">Reportar</button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-1">
+            @if (Session["usuarioLogado"] != null)
+            {
+                if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
+                {
+                    @Html.ActionLink(" ", "Remover", "Desaparecido", new { id = desaparecido.Id }, new { @class = "btn btn-primary btn-danger glyphicon glyphicon-trash" })
+                }
+            }
+        </div>
+    </div>
+    <div id="carousel" class="carousel slide" data-ride="carousel">
+        <!— Indicators —>
+        <ol class="carousel-indicators">
+            @for (int i = 0; i < fotos.Count(); i++)
+            {
+                if (i == 0)
+                {
+                    <li data-target="#myCarousel" data-slide-to="@i" class="active"></li>
+                }
+                else
+                {
+                    <li data-target="#myCarousel" data-slide-to="@i"></li>
+                }
+            }
+        </ol>
+
+        <div class="carousel-inner">
+            @for (int i = 0; i < fotos.Count(); i++)
+            {
+                if (i == 0)
+                {
+                    <div class="item active">
+                        <center>
+                            <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(fotos.ToArray()[i])" height="300">
+                            <div>
+                                @if (Session["usuarioLogado"] != null)
+                                {
+                                    <p>
+                                        <a class="btn btn-primary btn-warning glyphicon glyphicon-warning-sign" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"></a>
+                                    </p>
+                                    <div class="collapse" id="collapseExample">
+                                        <div class="card card-body">
+                                            @using (Html.BeginForm("Reportar", "Foto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                            {
+                                                <input type="text" class="form-control" placeholder="Motivo" name="texto" style="width: 200px" />
+                                                foreach (var foto in fotos)
+                                                {
+                                                    <input type="hidden" value="@foto.Id" name="idFotoDesaparecido" />
+                                                }
+                                                <button type="submit" class="btn btn-warning">Reportar</button>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </center>
+                    </div>
+                }
+                else
+                {
+                    <div class="item">
+                        <center>
+                            <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(fotos.ToArray()[i])" height="300">
+                            <div>REPORTAR</div>
+                        </center>
+                    </div>
+                }
+            }
+        </div>
+
+        <!— Left and right controls —>
+        <a class="left carousel-control" href="#carousel" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+            <span class="sr-only">Anterior</span>
+        </a>
+        <a class="right carousel-control" href="#carousel" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+            <span class="sr-only">Próxima</span>
+        </a>
+    </div>
+    <div class="row container">
+        <h4><Strong>Data de Desaparecimento:</Strong> @desaparecido.DataDeDesaparecimento.ToShortDateString()</h4> <br />
+        <h4><Strong>Idade:</Strong> @pessoa.Idade</h4> <br />
+        <h4><Strong>Local de Origem:</Strong> @pessoa.LocalDeOrigem</h4> <br />
+        <h4><Strong>Descrição do Desaparecido:</Strong> @pessoa.Descricao</h4> <br />
+        <h4><Strong>Famíliares:</Strong> @desaparecido.Familiares</h4> <br />
+        <h4><Strong>Onde foi Visto:</Strong> @desaparecido.Local</h4> <br />
+        <h4><Strong>Como Ocorreu:</Strong> @desaparecido.Como</h4> <br />
+        <h4><Strong>Publicado em:</Strong> @pessoa.DataDePublicacao.ToShortDateString()</h4> <br />
+    </div>
+    @if (Session["usuarioLogado"] != null)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-primary" data-toggle="collapse" href="#comentar" aria-expanded="false" aria-controls="comentar">Comentar</a>
+            </div>
+        </div>
+        <p>
+
+        </p>
+        <div class="row">
+            @using (Html.BeginForm("Comentar", "Comentario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="collapse" id="comentar">
+                    <div class="card card-body">
+                        <div class="col-md-12">
+                            <textarea class="form-control" placeholder="Motivo" name="texto" style="width: 100%; height:180px; max-width:100%;"></textarea>
+                            <input type="hidden" value="@desaparecido.Id" name="id" />
+                        </div>
+                        <div class="col-md-10"></div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    <div class="row">
+        @foreach (var comentario in comentarios)
+        {
+            <div class="col-sm-11">
+                <h4>Data: @comentario.Data.ToShortDateString()</h4>
+            </div>
+            <div class="col-sm-1">
+                @if (Session["usuarioLogado"] != null)
+                {
+                    @Html.ActionLink(" ", "Reportar", "Comentario", new { id = comentario.Id }, new { @class = "btn btn-primary btn-warning glyphicon glyphicon-warning-sign" })
+                }
+            </div>
+            <div class="col-sm-12">
+                <h5>@comentario.Texto</h5>
+            </div>
+        }
+    </div>
+</body>

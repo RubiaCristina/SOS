@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Denúncias";
+}
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link href="~/Content/login.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div>
+        @{
+            if (Session["usuarioLogado"] == null) {
+                throw new Exception("Acesso negado");
+            }
+            if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId != 1) {
+                throw new Exception("Acesso negado");
+            }
+            SOS_MoradoresDeRua.DAO.DenunciaDAO denuncia = new SOS_MoradoresDeRua.DAO.DenunciaDAO();
+            var denuncias = denuncia.Denuncias();
+        }
+        @foreach (var item in denuncias)
+        {
+            <div>
+                @{
+                    var texto = item.Descricao;
+                    var delator = item.Usuario;
+                }
+                <span> @texto </span>
+                <span> @delator.Id </span>
+
+                @if (item.Comentario != null)
+                {
+                    var comentario = item.Comentario;
+                    <div> @comentario.Id </div>
+                    var pessoa = new SOS_MoradoresDeRua.DAO.PessoaDAO().BuscaPorId(comentario.PessoaId);
+
+                    var morador = new SOS_MoradoresDeRua.DAO.MoradorDeRuaDAO().BuscaPorPessoaId(pessoa.Id);
+                    if (morador != null)
+                    {
+                        <a href="/Master/Morador?id=@pessoa.Id">Ir</a>
+                    }
+
+                    var desaparecido = new SOS_MoradoresDeRua.DAO.PessoaDesaparecidaDAO().BuscaPorPessoaId(pessoa.Id);
+                    if (desaparecido != null)
+                    {
+                        <a href="/Master/Desaparecido?id=@pessoa.Id">Ir</a>
+                    }
+                }
+                @if (item.Pessoa != null)
+                {
+                    var pessoa = new SOS_MoradoresDeRua.DAO.PessoaDAO().BuscaPorId(item.PessoaId.Value);
+                    <div> @pessoa.Id </div>
+                    var morador = new SOS_MoradoresDeRua.DAO.MoradorDeRuaDAO().BuscaPorPessoaId(pessoa.Id);
+                    if (morador != null)
+                    {
+                        <a href="/Master/Morador?id=@pessoa.Id">Ir</a>
+                    }
+
+                    var desaparecido = new SOS_MoradoresDeRua.DAO.PessoaDesaparecidaDAO().BuscaPorPessoaId(pessoa.Id);
+                    if (desaparecido != null)
+                    {
+                        <a href="/Master/Desaparecido?id=@pessoa.Id">Ir</a>
+                    }
+                }
+                @if (item.Foto != null)
+                {
+                    var foto = item.Foto;
+                    <div> @foto.Id </div>
+                    var fotos = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorId(item.PessoaId.Value);
+
+                    var morador = new SOS_MoradoresDeRua.DAO.MoradorDeRuaDAO().BuscaPorPessoaId(fotos.Id);
+                    if (morador != null)
+                    {
+                        <a href="/Master/Morador?id=@fotos.Id">Ir</a>
+                    }
+
+                    var desaparecido = new SOS_MoradoresDeRua.DAO.PessoaDesaparecidaDAO().BuscaPorPessoaId(fotos.Id);
+                    if (desaparecido != null)
+                    {
+                        <a href="/Master/Desaparecido?id=@fotos.Id">Ir</a>
+                    }
+                }
+                
+            </div>
+        }
+    </div>
+</body>
+
