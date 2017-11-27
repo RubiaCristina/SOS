@@ -146,6 +146,10 @@
     <Compile Include="Migrations\201711232146050_1.Designer.cs">
       <DependentUpon>201711232146050_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711261845511_2.cs" />
+    <Compile Include="Migrations\201711261845511_2.Designer.cs">
+      <DependentUpon>201711261845511_2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Comentario.cs" />
     <Compile Include="Models\Denuncia.cs" />
@@ -182,6 +186,8 @@
     <Content Include="Views\Master\Desaparecido.cshtml" />
     <Content Include="Views\Master\Usuario.cshtml" />
     <Content Include="Views\Master\Denuncias.cshtml" />
+    <Content Include="Views\Master\AdicionarFoto.cshtml" />
+    <Content Include="Views\Master\Sobre.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -191,12 +197,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Comentarios\" />
     <Folder Include="Views\Index\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201711232146050_1.resx">
       <DependentUpon>201711232146050_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711261845511_2.resx">
+      <DependentUpon>201711261845511_2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

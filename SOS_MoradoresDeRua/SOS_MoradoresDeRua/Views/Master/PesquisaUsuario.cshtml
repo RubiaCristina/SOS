@@ -18,14 +18,11 @@
     }
     @foreach (var usuario in usuarios)
     {
-        var foto = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorUsuario(usuario.Id).FirstOrDefault();
-        <div>
-            <h2>@usuario.Nome</h2>
-            @if (foto != null)
-            {
-                <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(foto)" width="200" height="200" />
-            }
-        </div>
+        <a href="../Master/Usuario?id=@usuario.Id">
+            <div>
+                <h2>@usuario.Nome</h2>                
+            </div>
+        </a>
     }
 </body>
 

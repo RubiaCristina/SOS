@@ -15,9 +15,6 @@ namespace SOS_MoradoresDeRua.Models
         public int PessoaId { get; set; }
         public DateTime Data { get; set; }
         public string Texto { get; set; }
-        public virtual Dicionario Dicionario { get; set; }
-        public int DicionarioId { get; set; }
-
         public IList<Denuncia> Denuncias{get; set;}
     }
 }

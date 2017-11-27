@@ -27,16 +27,17 @@ namespace SOS_MoradoresDeRua.Controllers
                     dao.Remover(dao.BuscaPorPessoaId(id));
                 }
             }
-            return View();
+            return RedirectToAction("../Master/MoradoresDeRua");
         }
-        public ActionResult Reportar(int id)
+        public ActionResult Reportar(int idMorador, string texto)
         {
             Denuncia denuncia = new Denuncia();
             denuncia.UsuarioId = (int)Session["UsuarioLogado"];
-            denuncia.PessoaId = new MoradorDeRuaDAO().BuscaPorId(id).PessoaId;
+            denuncia.PessoaId = new MoradorDeRuaDAO().BuscaPorId(idMorador).PessoaId;
+            denuncia.Descricao = texto;
             DenunciaDAO denunciaDao = new DenunciaDAO();
             denunciaDao.Adicionar(denuncia);
-            return View();
+            return RedirectToAction("../Master/MoradoresDeRua");
         }
         public ActionResult Comentario(int id, string texto)
         {
@@ -51,7 +52,32 @@ namespace SOS_MoradoresDeRua.Controllers
             comentario.Texto = texto;
             ComentarioDAO comentarioDao = new ComentarioDAO();
             comentarioDao.Adicionar(comentario);
-            return View();
+            return RedirectToAction("../Master/MoradoresDeRua");
+        }
+        public ActionResult RemoverFoto(int id)
+        {
+            if (Session["usuarioLogado"] != null)
+            {
+                if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
+                {
+                    FotoDAO dao = new FotoDAO();
+                    dao.Remover(dao.BuscaPorId(id));
+                }
+            }
+            return RedirectToAction("../Master/MoradoresDeRua");
+        }
+
+        public ActionResult RemoverComentario(int id)
+        {
+            if (Session["usuarioLogado"] != null)
+            {
+                if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
+                {
+                    ComentarioDAO dao = new ComentarioDAO();
+                    dao.Remover(dao.BuscaPorId(id));
+                }
+            }
+            return RedirectToAction("../Master/MoradoresDeRua");
         }
     }
 }

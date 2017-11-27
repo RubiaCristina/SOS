@@ -29,12 +29,12 @@ namespace SOS_MoradoresDeRua.Controllers
             }
             return RedirectToAction("../Master/Usuarios");
         }
-        public ActionResult Reportar(int id)
+        public ActionResult Reportar(int idUsuario, string texto)
         {
             Denuncia denuncia = new Denuncia();
             denuncia.UsuarioId = (int)Session["UsuarioLogado"];
-            
-            denuncia.UsuarioDenunciadoId = id;
+            denuncia.Descricao = texto;
+            denuncia.UsuarioDenunciadoId = idUsuario;
             DenunciaDAO denunciaDao = new DenunciaDAO();
             denunciaDao.Adicionar(denuncia);
             return RedirectToAction("../Master/Usuarios");

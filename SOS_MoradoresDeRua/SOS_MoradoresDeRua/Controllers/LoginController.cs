@@ -27,7 +27,7 @@ namespace SOS_MoradoresDeRua.Controllers
             }
             else
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("../Master/Login");
             }
         }
     }

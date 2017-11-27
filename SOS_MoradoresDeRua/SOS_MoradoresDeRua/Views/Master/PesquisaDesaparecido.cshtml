@@ -17,15 +17,19 @@
     }
     @foreach (var desaparecido in desaparecidos)
     {
-        var pessoa = new SOS_MoradoresDeRua.DAO.PessoaDAO().BuscaPorId(desaparecido.PessoaId);
-        var foto = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorPessoa(pessoa.Id).FirstOrDefault();
-        <div>
-            <h2>@pessoa.Nome</h2>
-            <h3>@desaparecido.Local</h3>
-            @if (foto != null)
-            {
-                <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(foto)" width="200" height="200" />
+        <a href="../Master/Desaparecido?id=@desaparecido.PessoaId">
+            @{
+                var pessoa = new SOS_MoradoresDeRua.DAO.PessoaDAO().BuscaPorId(desaparecido.PessoaId);
+                var foto = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorPessoa(pessoa.Id).FirstOrDefault();
             }
-        </div>
+            <div>
+                <h2>@pessoa.Nome</h2>
+                <h3>@desaparecido.Local</h3>
+                @if (foto != null)
+                {
+                    <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(foto)" width="200" height="200" />
+                }
+            </div>
+        </a>
     }
 </body>

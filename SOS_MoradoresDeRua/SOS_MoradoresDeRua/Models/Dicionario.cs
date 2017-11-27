@@ -9,7 +9,5 @@ namespace SOS_MoradoresDeRua.Models
     {
         public int Id { get; set; }
         public string Palavra { get; set; }
-
-        public IList<Comentario> Comentarios { get; set; }
     }
 }

@@ -15,17 +15,21 @@
         var termo = HttpUtility.HtmlDecode(Request.Params["s"]);
         var moradores = new SOS_MoradoresDeRua.DAO.MoradorDeRuaDAO().Busca(termo);
     }
-    @foreach(var morador in moradores)
+    @foreach (var morador in moradores)
     {
-        var pessoa = new SOS_MoradoresDeRua.DAO.PessoaDAO().BuscaPorId(morador.PessoaId);
-        var foto = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorPessoa(pessoa.Id).FirstOrDefault();
-        <div>
-            <h2>@pessoa.Nome</h2>
-            <h3>@morador.OndeVive</h3>
-            @if (foto != null)
-            {
-            <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(foto)" width="200" height="200" />
+        <a href="../Master/Morador?id=@morador.PessoaId">
+            @{
+                var pessoa = new SOS_MoradoresDeRua.DAO.PessoaDAO().BuscaPorId(morador.PessoaId);
+                var foto = new SOS_MoradoresDeRua.DAO.FotoDAO().BuscaPorPessoa(pessoa.Id).FirstOrDefault();
             }
-        </div>
-    }
+            <div>
+                <h2>@pessoa.Nome</h2>
+                <h3>@morador.OndeVive</h3>
+                @if (foto != null)
+                {
+                    <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(foto)" width="200" height="200" />
+                }
+            </div>
+        </a>
+     }
 </body>

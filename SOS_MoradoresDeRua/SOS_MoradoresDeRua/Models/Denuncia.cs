@@ -12,10 +12,6 @@ namespace SOS_MoradoresDeRua.Models
         public int UsuarioId { get; set; }
         public virtual Usuario UsuarioDenunciado { get; set; }
         public int? UsuarioDenunciadoId { get; set; }
-        public virtual Comentario Comentario { get; set; }
-        public int? ComentarioId { get; set; }
-        public virtual Foto Foto { get; set; }
-        public int? FotoId { get; set; }
         public virtual Pessoa Pessoa { get; set; }
         public int? PessoaId { get; set; }
         public string Descricao { get; set; }  

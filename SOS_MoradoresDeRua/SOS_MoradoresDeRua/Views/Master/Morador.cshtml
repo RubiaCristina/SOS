@@ -36,8 +36,8 @@
                     <div class="card card-body">
                         @using (Html.BeginForm("Reportar", "Morador", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
-                            <input type="text" class="form-control" placeholder="Motivo" name="texto" style="width: 200px" />
-                            <input type="hidden" value="@morador.Id" name="idMorador" />
+                            <input type="hidden" value="@morador.Id" name="idMorador" id="idMorador" />
+                            <input type="text" class="form-control" placeholder="Motivo" name="texto" id="texto" style="width: 200px" />
                             <button type="submit" class="btn btn-warning">Reportar</button>
                         }
                     </div>
@@ -78,27 +78,14 @@
                     <div class="item active">
                         <center>
                             <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(fotos.ToArray()[i])" height="300">
-                            <div>
+                            <br />
                                 @if (Session["usuarioLogado"] != null)
                                 {
-                                    <p>
-                                        <a class="btn btn-primary btn-warning glyphicon glyphicon-warning-sign" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"></a>
-                                    </p>
-                                    <div class="collapse" id="collapseExample">
-                                        <div class="card card-body">
-                                            @using (Html.BeginForm("Reportar", "Foto", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                            {
-                                                <input type="text" class="form-control" placeholder="Motivo" name="texto" style="width: 200px" />
-                                                foreach (var foto in fotos)
-                                                {
-                                                    <input type="hidden" value="@foto.Id" name="idFotoMorador" />
-                                                }
-                                                <button type="submit" class="btn btn-warning">Reportar</button>
-                                            }
-                                        </div>
-                                    </div>
+                                    if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
+                                    {
+                                        @Html.ActionLink(" ", "RemoverFoto", "Morador", new { id = fotos.ToArray()[i].Id }, new { @class = "btn btn-primary btn-danger glyphicon glyphicon-trash" })
+                                    }
                                 }
-                                </div>
                         </center>
                     </div>
                 }
@@ -107,7 +94,14 @@
                     <div class="item">
                         <center>
                             <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(fotos.ToArray()[i])" height="300">
-                            <div>REPORTAR</div>
+                            <br />
+                                @if (Session["usuarioLogado"] != null)
+                                {
+                                    if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
+                                    {
+                                        @Html.ActionLink(" ", "RemoverFoto", "Morador", new { id = fotos.ToArray()[i].Id }, new { @class = "btn btn-primary btn-danger glyphicon glyphicon-trash" })
+                                    }
+                                }
                         </center>
                     </div>
                 }
@@ -124,16 +118,17 @@
             <span class="sr-only">Próxima</span>
         </a>
     </div>
+    <a href="../Master/AdicionarFoto?id=@pessoa.Id" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-picture"></span> Adicionar foto</a>
     <div class="row container">
-        <h4><Strong>Idade:</Strong> @pessoa.Idade</h4> <br/>
-        <h4><Strong>Localização Atual:</Strong> @morador.OndeVive</h4> <br/>
-        <h4><Strong>Historia:</Strong> @morador.Historia</h4><br/>
-        <h4><Strong>Local de Origem:</Strong> @pessoa.LocalDeOrigem</h4> <br/>
-        <h4><Strong>Sobre o Morador:</Strong> @pessoa.Descricao</h4> <br/>
-        <h4><Strong>Necessidades:</Strong> @morador.Necessidades</h4> <br/>
-        <h4><Strong>Profissão:</Strong> @morador.Profissao</h4> <br/>
-        <h4><Strong>Escolaridade:</Strong> @morador.Escolaridade</h4> <br/>
-        <h4><Strong>Publicado em:</Strong> @pessoa.DataDePublicacao.ToShortDateString()</h4> <br/>
+        <h4><Strong>Idade:</Strong> @pessoa.Idade</h4> <br />
+        <h4><Strong>Localização Atual:</Strong> @morador.OndeVive</h4> <br />
+        <h4><Strong>Historia:</Strong> @morador.Historia</h4><br />
+        <h4><Strong>Local de Origem:</Strong> @pessoa.LocalDeOrigem</h4> <br />
+        <h4><Strong>Sobre o Morador:</Strong> @pessoa.Descricao</h4> <br />
+        <h4><Strong>Necessidades:</Strong> @morador.Necessidades</h4> <br />
+        <h4><Strong>Profissão:</Strong> @morador.Profissao</h4> <br />
+        <h4><Strong>Escolaridade:</Strong> @morador.Escolaridade</h4> <br />
+        <h4><Strong>Publicado em:</Strong> @pessoa.DataDePublicacao.ToShortDateString()</h4> <br />
     </div>
     <div class="row">
         <div class="col-md-11">
@@ -153,7 +148,7 @@
 
         </p>
         <div class="row">
-            @using (Html.BeginForm("Comentar", "Comentario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("Comentario", "Morador", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 <div class="collapse" id="comentar">
                     <div class="card card-body">
@@ -173,21 +168,25 @@
     <div class="row">
         @foreach (var comentario in comentarios)
         {
-            <div class="col-sm-11">
-                <h4>Data: @comentario.Data.ToShortDateString()</h4>
+            <div class="row">
+                <div class="col-sm-10">
+                    <h4>Data: @comentario.Data.ToShortDateString()</h4>
+                </div>
+                <div class="col-sm-2">
+                    @if (Session["usuarioLogado"] != null)
+                    {
+                        if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
+                        {
+                            @Html.ActionLink(" ", "RemoverComentario", "Morador", new { id = comentario.Id }, new { @class = "btn btn-primary btn-danger glyphicon glyphicon-trash" })
+                        }
+                    }
+                </div>
             </div>
-            <div class="col-sm-1">
-                @if (Session["usuarioLogado"] != null)
-                {
-                    @Html.ActionLink(" ", "Reportar", "Comentario", new { id = comentario.Id }, new { @class = "btn btn-primary btn-warning glyphicon glyphicon-warning-sign" })
-                }
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>@comentario.Texto</p>
+                </div>
             </div>
-            <div class="col-sm-12">
-                <h5>@comentario.Texto</h5>
-            </div>
-
         }
     </div>
-
-
 </body>

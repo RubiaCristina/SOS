@@ -4,6 +4,7 @@
 
 @{
     ViewBag.Title = "Login";
+    Session.Remove("usuarioLogado");
 }
 
 <head>
@@ -32,7 +33,7 @@
                             <div class="form-group">
                                 <label for="lg_password" class="sr-only">Senha</label>
                                 <input type="password" class="form-control" id="lg_email" name="Senha" placeholder="Senha">
-                            </div>
+                            </div>-
                             <div class="form-group login-group-checkbox">
                                 <input type="checkbox" id="lg_remember" name="lg_remember">
                                 <label for="lg_remember">Lembrar-me</label>

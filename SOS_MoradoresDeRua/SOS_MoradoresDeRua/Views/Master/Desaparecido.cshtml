@@ -1,4 +1,4 @@
-﻿
+﻿*
 @{
     ViewBag.Title = "Desaparecido";
 }
@@ -34,8 +34,8 @@
                     <div class="card card-body">
                         @using (Html.BeginForm("Reportar", "Desaparecido", FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
-                            <input type="text" class="form-control" placeholder="Motivo" name="texto" style="width: 200px" />
-                            <input type="hidden" value="@desaparecido.Id" name="idDesaparecido" />
+                            <input type="hidden" value="@desaparecido.Id" name="idDesaparecido" id="idDesaparecido" />
+                            <input type="text" class="form-control" placeholder="Motivo" name="texto" id="texto" style="width: 200px" />
                             <button type="submit" class="btn btn-warning">Reportar</button>
                         }
                     </div>
@@ -75,28 +75,14 @@
                 {
                     <div class="item active">
                         <center>
-                            <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(fotos.ToArray()[i])" height="300">
-                            <div>
-                                @if (Session["usuarioLogado"] != null)
+                            <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(fotos.ToArray()[i])" height="300"><br />
+                            @if (Session["usuarioLogado"] != null)
+                            {
+                                if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
                                 {
-                                    <p>
-                                        <a class="btn btn-primary btn-warning glyphicon glyphicon-warning-sign" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"></a>
-                                    </p>
-                                    <div class="collapse" id="collapseExample">
-                                        <div class="card card-body">
-                                            @using (Html.BeginForm("Reportar", "Foto", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                            {
-                                                <input type="text" class="form-control" placeholder="Motivo" name="texto" style="width: 200px" />
-                                                foreach (var foto in fotos)
-                                                {
-                                                    <input type="hidden" value="@foto.Id" name="idFotoDesaparecido" />
-                                                }
-                                                <button type="submit" class="btn btn-warning">Reportar</button>
-                                            }
-                                        </div>
-                                    </div>
+                                    @Html.ActionLink(" ", "RemoverFoto", "Desaparecido", new { id = fotos.ToArray()[i].Id }, new { @class = "btn btn-primary btn-danger glyphicon glyphicon-trash" })
                                 }
-                            </div>
+                            }                           
                         </center>
                     </div>
                 }
@@ -104,8 +90,14 @@
                 {
                     <div class="item">
                         <center>
-                            <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(fotos.ToArray()[i])" height="300">
-                            <div>REPORTAR</div>
+                            <img src="@SOS_MoradoresDeRua.DAO.FotoDAO.RetornaSrcImagem(fotos.ToArray()[i])" height="300">   <br />                         
+                                @if (Session["usuarioLogado"] != null)
+                                {
+                                    if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
+                                    {
+                                        @Html.ActionLink(" ", "RemoverFoto", "Desaparecido", new { id = fotos.ToArray()[i].Id }, new { @class = "btn btn-primary btn-danger glyphicon glyphicon-trash" })
+                                    }
+                                }
                         </center>
                     </div>
                 }
@@ -122,6 +114,7 @@
             <span class="sr-only">Próxima</span>
         </a>
     </div>
+    <a href="../Master/AdicionarFoto?id=@pessoa.Id" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-picture"></span> Adicionar foto</a>
     <div class="row container">
         <h4><Strong>Data de Desaparecimento:</Strong> @desaparecido.DataDeDesaparecimento.ToShortDateString()</h4> <br />
         <h4><Strong>Idade:</Strong> @pessoa.Idade</h4> <br />
@@ -139,11 +132,8 @@
                 <a class="btn btn-primary" data-toggle="collapse" href="#comentar" aria-expanded="false" aria-controls="comentar">Comentar</a>
             </div>
         </div>
-        <p>
-
-        </p>
         <div class="row">
-            @using (Html.BeginForm("Comentar", "Comentario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("Comentario", "Desaparecido", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 <div class="collapse" id="comentar">
                     <div class="card card-body">
@@ -160,21 +150,26 @@
             }
         </div>
     }
-    <div class="row">
-        @foreach (var comentario in comentarios)
-        {
-            <div class="col-sm-11">
+    @foreach (var comentario in comentarios)
+    {
+        <div class="row">
+            <div class="col-sm-10">
                 <h4>Data: @comentario.Data.ToShortDateString()</h4>
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
                 @if (Session["usuarioLogado"] != null)
                 {
-                    @Html.ActionLink(" ", "Reportar", "Comentario", new { id = comentario.Id }, new { @class = "btn btn-primary btn-warning glyphicon glyphicon-warning-sign" })
+                    if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
+                    {
+                        @Html.ActionLink(" ", "RemoverComentario", "Desaparecido", new { id = comentario.Id }, new { @class = "btn btn-primary btn-danger glyphicon glyphicon-trash" })
+                    }
                 }
             </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12">
-                <h5>@comentario.Texto</h5>
+                <p>@comentario.Texto</p>
             </div>
-        }
-    </div>
+        </div>
+    }
 </body>

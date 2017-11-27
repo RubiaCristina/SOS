@@ -117,3 +117,4 @@ C:\Users\m004\Desktop\S.O.S. Moradores de Rua\SOS_MoradoresDeRua\SOS_MoradoresDe
 C:\Users\m004\Desktop\S.O.S. Moradores de Rua\SOS_MoradoresDeRua\SOS_MoradoresDeRua\obj\Debug\SOS_MoradoresDeRua.csproj.GenerateResource.Cache
 C:\Users\m004\Desktop\S.O.S. Moradores de Rua\SOS_MoradoresDeRua\SOS_MoradoresDeRua\obj\Debug\SOS_MoradoresDeRua.dll
 C:\Users\m004\Desktop\S.O.S. Moradores de Rua\SOS_MoradoresDeRua\SOS_MoradoresDeRua\obj\Debug\SOS_MoradoresDeRua.pdb
+C:\Users\rubia\Desktop\S.O.S. Moradores de Rua\SOS_MoradoresDeRua\SOS_MoradoresDeRua\obj\Debug\SOS_MoradoresDeRua.Migrations._2.resources

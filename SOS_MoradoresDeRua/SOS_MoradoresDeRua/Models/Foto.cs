@@ -15,7 +15,5 @@ namespace SOS_MoradoresDeRua.Models
         public byte[] Fotografia { get; set; }
         public DateTime Data { get; set; }
         public string TipoFotografia { get; set; }
-
-        public IList<Denuncia> Denuncias { get; set; }
     }
 }

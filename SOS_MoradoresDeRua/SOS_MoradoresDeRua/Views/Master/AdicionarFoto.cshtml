@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "AdicionarFoto";
+    var id = HttpUtility.HtmlDecode(Request.Params["id"]);
+}
+
+<h2>AdicionarFoto</h2>
+@using (Html.BeginForm("AdicionarFotoMetodo", "Master", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <label for="file">Upload Image:</label>
+        <input type="hidden" value="@id" name="id" id="id" />
+        <input type="file" name="file" id="file" style="width: 100%;" />
+    </div>
+
+    <button type="submit">Enviar foto</button>
+}
