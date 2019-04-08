@@ -22,7 +22,7 @@ namespace SOS_MoradoresDeRua.DAO
         public DbSet<Usuario> Usuarios { get; set; }        
 
         //public SOSContext(): base("Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename=\"C:\\Users\\m004\\Desktop\\S.O.S. Moradores de Rua\\SOS.mdf\";Integrated Security = True; Connect Timeout = 30")
-        public SOSContext(): base("Data Source = (localdb)\\MSSQLLocalDB;Initial Catalog = SOS; Integrated Security = True; Connect Timeout = 30; Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False")     
+        public SOSContext(): base("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Klann\\Source\\Repos\\SOS\\SOS.mdf;Integrated Security=True;Connect Timeout=30")     
         {
 
         }

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using SOS_MoradoresDeRua;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -23,12 +24,12 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="http://localhost:50274/Master/Index">Inicio</a></li>
-                    <li><a href="http://localhost:50274/Master/MoradoresDeRua">Situação de Rua</a></li>
-                    <li><a href="http://localhost:50274/Master/Desaparecidos">Desaparecidos</a></li>
+                    <li class="@Menus.MenuClassInicio"><a href="http://localhost:50274/Master/Index">Inicio</a></li>
+                    <li class="@Menus.MenuClassSituacaoRua"><a href="http://localhost:50274/Master/MoradoresDeRua">Situação de Rua</a></li>
+                    <li class="@Menus.MenuClassDesaparecidos"><a href="http://localhost:50274/Master/Desaparecidos">Desaparecidos</a></li>
                     @if (Session["usuarioLogado"] != null)
-            {
-                        <li><a href="http://localhost:50274/Master/Usuarios">Usuários</a></li>
+                    {
+                        <li class="@Menus.MenuClassUsuarios"><a href="http://localhost:50274/Master/Usuarios">Usuários</a></li>
                     }
                     @if (Session["usuarioLogado"] != null)
                     {
@@ -36,13 +37,13 @@
                     }
                     else if (Session["usuarioLogado"] == null)
                     {
-                        <li><a href="http://localhost:50274/Master/Login">Login</a></li>
+                        <li class="@Menus.MenuClassLogin"><a href="http://localhost:50274/Master/Login">Login</a></li>
                     }
                     @if (Session["usuarioLogado"] != null)
-            {
-                if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
-                {
-                            <li><a href="http://localhost:50274/Master/Denuncias">Denúncias</a></li>
+                    {
+                        if (new SOS_MoradoresDeRua.DAO.UsuarioDAO().BuscaId((int)Session["usuarioLogado"]).TipoUsuarioId == 1)
+                        {
+                            <li class="@Menus.MenuClassDenuncias"><a href="http://localhost:50274/Master/Denuncias">Denúncias</a></li>
                         }
                     }
                 </ul>
